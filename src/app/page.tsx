@@ -139,15 +139,10 @@ export default async function DashboardPage(props: PageProps<"/">) {
             </Notice>
           )}
 
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <div className="grid grid-cols-3 gap-2 sm:gap-3">
             <StatTile label="측정 인원" value={`${sessions.length}명`} note={groupLabel} />
             <StatTile label="선수 수" value={`${uniquePlayers}명`} note="같은 선수 재측정은 1명으로" />
             <StatTile label="캠프" value={`${campId === "all" ? camps.length : 1}회`} note={campId === "all" ? "누적" : campLabel} />
-            <StatTile
-              label="측정오류 제외"
-              value={`${sessions.reduce((a, s) => a + Object.keys(s.flags).length, 0)}건`}
-              note="기준표에 걸린 값은 통계에서 제외"
-            />
           </div>
 
           <div className="grid gap-5 lg:grid-cols-5">
