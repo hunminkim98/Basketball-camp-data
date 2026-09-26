@@ -83,12 +83,16 @@ export class SupabaseStore implements Store {
     this.db = createClient(url, serviceRoleKey, { auth: { persistSession: false } });
   }
 
-  private async fetchAll<T>(table: string, order: string): Promise<T[]> {
+  /**
+   * 1,000행씩 나눠 읽는다. 정렬 열은 반드시 행을 고유하게 정해야 한다(기본키 전체).
+   * 동점이 있으면 페이지마다 순서가 달라져 경계에서 행이 중복되거나 빠질 수 있다.
+   */
+  private async fetchAll<T>(table: string, order: string[]): Promise<T[]> {
     const out: T[] = [];
     for (let from = 0; ; from += PAGE) {
-      const rows = check(
-        await this.db.from(table).select("*").order(order).range(from, from + PAGE - 1),
-      ) as T[];
+      let query = this.db.from(table).select("*");
+      for (const col of order) query = query.order(col);
+      const rows = check(await query.range(from, from + PAGE - 1)) as T[];
       out.push(...rows);
       if (rows.length < PAGE) return out;
     }
@@ -96,10 +100,10 @@ export class SupabaseStore implements Store {
 
   async load(): Promise<Dataset> {
     const [players, camps, measurements, rules] = await Promise.all([
-      this.fetchAll<PlayerRow>("players", "id"),
-      this.fetchAll<CampRow>("camps", "date"),
-      this.fetchAll<MeasurementRow>("measurements", "player_id"),
-      this.fetchAll<RuleRow>("validation_rules", "sort_order"),
+      this.fetchAll<PlayerRow>("players", ["id"]),
+      this.fetchAll<CampRow>("camps", ["date", "id"]),
+      this.fetchAll<MeasurementRow>("measurements", ["player_id", "camp_id", "metric_key"]),
+      this.fetchAll<RuleRow>("validation_rules", ["sort_order", "id"]),
     ]);
     return {
       players: players.map((r) => ({
