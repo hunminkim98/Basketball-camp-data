@@ -98,7 +98,7 @@ export function ImportWizard({ camps }: { camps: Camp[] }) {
         </p>
         <div className="mt-4 flex flex-wrap gap-2">
           <Link href={`/?camp=${done.campId}`} className={buttonClass.primary}>
-            이 캠프 기준 데이터 보기
+            이 캠프 대시보드 보기
           </Link>
           <Link href="/admin/players" className={buttonClass.ghost}>
             선수 목록 · 열람 코드

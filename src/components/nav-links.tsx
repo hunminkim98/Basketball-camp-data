@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 export function NavLinks({ admin }: { admin: boolean }) {
   const pathname = usePathname();
   const links = [
-    { href: "/", label: "기준 데이터", active: pathname === "/" },
+    { href: "/", label: "대시보드", active: pathname === "/" },
     { href: "/players", label: "선수 리포트", active: pathname.startsWith("/players") || pathname.startsWith("/r/") },
     { href: "/admin", label: admin ? "관리자" : "관리자 로그인", active: pathname.startsWith("/admin") },
   ];

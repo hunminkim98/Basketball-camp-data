@@ -45,7 +45,7 @@ export default async function AdminHome() {
                   <b className="text-ink">{c.name}</b> <span className="text-sm text-muted">{c.date}{c.location ? ` · ${c.location}` : ""}</span>
                 </span>
                 <Link href={`/?camp=${c.id}`} className="text-sm font-semibold text-navy hover:underline">
-                  {sessions.filter((s) => s.camp.id === c.id).length}명 · 기준 데이터 보기 →
+                  {sessions.filter((s) => s.camp.id === c.id).length}명 · 대시보드 보기 →
                 </Link>
               </li>
             ))}

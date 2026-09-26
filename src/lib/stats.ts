@@ -97,3 +97,13 @@ export function histogram(values: number[], targetBins = 8): Bin[] {
 function round(v: number): number {
   return Number(v.toFixed(6));
 }
+
+/** 분위수 (선형 보간, 엑셀 QUARTILE.INC·PERCENTILE.INC와 같음). p는 0–1 */
+export function quantile(values: number[], p: number): number | null {
+  if (values.length === 0) return null;
+  const s = [...values].sort((a, b) => a - b);
+  const pos = (s.length - 1) * p;
+  const lo = Math.floor(pos);
+  const hi = Math.ceil(pos);
+  return s[lo] + (s[hi] - s[lo]) * (pos - lo);
+}
