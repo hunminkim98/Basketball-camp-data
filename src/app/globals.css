@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+/* 디자인 토큰 — 넥스트레벨 유소년 농구캠프 */
+@theme {
+  --color-navy: #14305e;
+  --color-navy-soft: #e8edf5;
+  --color-court: #ff6b1a;
+  --color-court-soft: #fff1e8;
+  --color-sub: #cdd3dc;
+  --color-line: #dde2ea;
+  --color-canvas: #fafafa;
+  --color-ink: #1a1a1a;
+  --color-body: #333333;
+  --color-muted: #5f6b7a;
+  --color-track: #eef1f5;
+  --color-danger: #b42318;
+  --color-danger-soft: #fdecea;
+
+  --font-sans: "JASO Sans", var(--font-pretendard), "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-body);
+  font-family: var(--font-sans);
+  font-feature-settings: "tnum" 0;
+  -webkit-text-size-adjust: 100%;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 흰 카드 + 얇은 테두리 + 상단 6px 색 띠 */
+.card {
+  background: #fff;
+  border: 1px solid var(--color-line);
+  border-top: 6px solid var(--color-navy);
+  border-radius: 10px;
+}
+.card-court {
+  border-top-color: var(--color-court);
+}
+.card-sub {
+  border-top-color: var(--color-sub);
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 12mm;
+  }
+  body {
+    background: #fff;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .no-print {
+    display: none !important;
+  }
+  /* rem 기반이라 전체를 축소해 A4 2~3쪽에 담는다 */
+  html {
+    font-size: 10.5px;
+  }
+  .card {
+    break-inside: avoid;
+  }
+  .card.print-split {
+    break-inside: auto;
+  }
+  .print-keep,
+  tr {
+    break-inside: avoid;
+  }
+  .print-break {
+    break-before: page;
+  }
+}
